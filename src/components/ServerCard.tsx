@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { ServerItem } from '@/lib/data';
-import { ThumbsUp, Users, ExternalLink, ShieldCheck, Flame, Star, Clock } from 'lucide-react';
+import { ThumbsUp, Users, ExternalLink, ShieldCheck, Flame, Star, Clock, Info } from 'lucide-react';
 
 interface ServerCardProps {
   server: ServerItem;
@@ -13,7 +14,9 @@ export default function ServerCard({ server, rank }: ServerCardProps) {
   const [votes, setVotes] = useState(server.votes);
   const [hasVoted, setHasVoted] = useState(false);
 
-  const handleVote = () => {
+  const handleVote = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!hasVoted) {
       setVotes(prev => prev + 1);
       setHasVoted(true);
@@ -54,23 +57,23 @@ export default function ServerCard({ server, rank }: ServerCardProps) {
         </div>
       </div>
 
-      {/* BANNER IMAGE */}
-      <div className="relative h-44 w-full overflow-hidden bg-gray-900">
+      {/* BANNER IMAGE WITH CLICKABLE LINK TO SERVER DETAIL */}
+      <Link href={`/server/${server.slug}`} className="block relative h-44 w-full overflow-hidden bg-gray-900 group">
         <img
           src={server.bannerUrl}
           alt={`${server.name} Metin2 PVP Server`}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#10131a] via-transparent to-black/30" />
-      </div>
+      </Link>
 
       {/* CONTENT */}
       <div className="p-5 space-y-4">
         <div>
-          <h3 className="text-xl font-bold text-white hover:text-amber-400 transition-colors flex items-center gap-2">
+          <Link href={`/server/${server.slug}`} className="text-xl font-bold text-white hover:text-amber-400 transition-colors flex items-center gap-2">
             {server.name}
             <ShieldCheck className="w-5 h-5 text-emerald-400 inline" />
-          </h3>
+          </Link>
           <p className="text-xs text-gray-400 mt-1 line-clamp-2 leading-relaxed">
             {server.description}
           </p>
@@ -107,20 +110,15 @@ export default function ServerCard({ server, rank }: ServerCardProps) {
           )}
         </div>
 
-        {/* ACTION BUTTONS (VOTE & GO WEBSITE) */}
+        {/* ACTION BUTTONS (DETAIL PAGE & OFFICIAL WEBSITE) */}
         <div className="grid grid-cols-2 gap-2 pt-1">
-          <button
-            onClick={handleVote}
-            disabled={hasVoted}
-            className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-bold text-xs transition-all ${
-              hasVoted
-                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-default'
-                : 'bg-white/5 hover:bg-amber-500/20 text-gray-200 hover:text-amber-400 border border-white/10 hover:border-amber-500/40'
-            }`}
+          <Link
+            href={`/server/${server.slug}`}
+            className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white border border-white/10 font-bold text-xs transition-all"
           >
-            <ThumbsUp className={`w-4 h-4 ${hasVoted ? 'fill-emerald-400' : ''}`} />
-            {hasVoted ? 'Oy Verildi!' : `Oy Ver (${votes.toLocaleString('tr-TR')})`}
-          </button>
+            <Info className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Detayları İncele</span>
+          </Link>
 
           <a
             href={server.websiteUrl}
