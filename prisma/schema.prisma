@@ -1,0 +1,107 @@
+// Prisma Schema for Metin2Atlas Platform
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  SERVER_OWNER
+  ADMIN
+}
+
+enum ServerType {
+  TYPE_1_99   @map("1-99")
+  TYPE_1_105  @map("1-105")
+  TYPE_55_120 @map("55-120")
+  TYPE_1_120  @map("1-120")
+  VSLIK       @map("Vslik")
+}
+
+enum ServerStatus {
+  OPENING_SOON
+  ONLINE
+  OFFLINE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  passwordHash  String?
+  role          Role      @default(USER)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  servers       Server[]  @relation("UserServers")
+  votes         Vote[]
+}
+
+model Server {
+  id            String       @id @default(cuid())
+  name          String
+  slug          String       @unique
+  description   String
+  websiteUrl    String
+  discordUrl    String?
+  bannerUrl     String
+  
+  type          ServerType   @default(TYPE_1_99)
+  status        ServerStatus @default(OPENING_SOON)
+  openingDate   DateTime?    // Opening timestamp for countdown
+  
+  // Features
+  hasAlchemy    Boolean      @default(false)
+  hasLycan      Boolean      @default(false)
+  hasAutoHunt   Boolean      @default(false)
+  maxLevel      Int          @default(99)
+  rewardPool    String?
+  
+  // Stats & Automation
+  votesCount    Int          @default(0)
+  rating        Float        @default(5.0)
+  onlinePlayers Int?         @default(0)
+  
+  // Monetization / VIP
+  isVip         Boolean      @default(false)
+  vipExpiresAt  DateTime?
+  isFeatured    Boolean      @default(false)
+  
+  ownerId       String?
+  owner         User?        @relation("UserServers", fields: [ownerId], references: [id], onDelete: SetNull)
+  
+  votes         Vote[]
+  payments      Payment[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  ipAddress String
+  serverId  String
+  server    Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+
+  @@unique([ipAddress, serverId, createdAt])
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  serverId      String
+  server        Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  amount        Float
+  currency      String   @default("TRY")
+  status        String   @default("PENDING") // PENDING, SUCCESS, FAILED
+  provider      String   @default("PAYTR")
+  paymentId     String?  @unique
+  vipDays       Int      @default(30)
+  createdAt     DateTime @default(now())
+}
