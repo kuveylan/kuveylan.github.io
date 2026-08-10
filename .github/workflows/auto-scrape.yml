@@ -1,0 +1,76 @@
+name: 🤖 Metin2Atlas Otomatik Server Tarayıcı
+
+on:
+  # Her 6 saatte bir otomatik çalış
+  schedule:
+    - cron: '0 */6 * * *'
+
+  # GitHub Actions arayüzünden elle tetikle
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (kaydetme, sadece göster)'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # servers.json'u commit edebilmek için
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🟢 Node.js Kurulum
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Bağımlılıkları Yükle
+        run: npm ci
+
+      - name: 🔍 Scraper Çalıştır
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            node scripts/scraper.js --dry-run
+          else
+            node scripts/scraper.js
+          fi
+
+      - name: 📊 Değişiklikleri Kontrol Et
+        id: check_changes
+        run: |
+          if git diff --quiet src/data/servers.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "⏭️ servers.json değişmedi — deploy atlanıyor"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            ADDED=$(git diff src/data/servers.json | grep '^+' | grep '"id"' | wc -l)
+            echo "📦 Yeni server sayısı: $ADDED"
+            echo "server_count=$ADDED" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 💾 Değişiklikleri Commit Et
+        if: steps.check_changes.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name  "Metin2Atlas Bot"
+          git config user.email "bot@metin2atlas.tech"
+          git add src/data/servers.json
+          git commit -m "🤖 [bot] ${{ steps.check_changes.outputs.server_count }} yeni server eklendi ($(date -u '+%d.%m.%Y %H:%M UTC'))"
+          git push
+
+      - name: 🚀 Sonuç Özeti
+        run: |
+          echo "## Tarama Tamamlandı" >> $GITHUB_STEP_SUMMARY
+          echo "- 🕐 Zaman: $(date -u '+%d.%m.%Y %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 Değişiklik: ${{ steps.check_changes.outputs.changed }}" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.check_changes.outputs.changed }}" = "true" ]; then
+            echo "- ➕ Yeni server: ${{ steps.check_changes.outputs.server_count }}" >> $GITHUB_STEP_SUMMARY
+            echo "- 🌐 Deploy tetiklendi → metin2atlas.tech güncelleniyor..." >> $GITHUB_STEP_SUMMARY
+          fi
