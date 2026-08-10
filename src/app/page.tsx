@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import ServerCard from '@/components/ServerCard';
 import ServerWizard from '@/components/ServerWizard';
@@ -190,8 +191,8 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-6 text-xs text-gray-400 font-medium">
-            <a href="#" className="hover:text-amber-400 transition-colors">Server Ekle</a>
-            <a href="#" className="hover:text-amber-400 transition-colors">Reklam Verme & VIP</a>
+            <Link href="/add-server" className="hover:text-amber-400 transition-colors">Server Ekle</Link>
+            <Link href="/add-server" className="hover:text-amber-400 transition-colors">Reklam Verme & VIP</Link>
             <a href="#" className="hover:text-amber-400 transition-colors">Gizlilik Politikası</a>
             <a href="#" className="hover:text-amber-400 transition-colors">İletişim</a>
           </div>

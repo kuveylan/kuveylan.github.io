@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ShieldAlert, Flame, Calendar, Trophy, Gamepad2, Menu, X, PlusCircle } from 'lucide-react';
+import { ShieldAlert, Flame, Calendar, Trophy, Menu, X, PlusCircle } from 'lucide-react';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -32,21 +32,21 @@ export default function Header() {
           {/* DESKTOP HIGH-SEO NAVIGATION */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
             <Link 
-              href="#opening-this-week" 
+              href="/#opening-this-week" 
               className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold text-amber-400 bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition-all"
             >
               <Calendar className="w-4 h-4 text-amber-400" />
               Bu Cuma Açılacaklar
             </Link>
             <Link 
-              href="#active-servers" 
+              href="/#opening-this-week" 
               className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold text-gray-200 hover:text-amber-400 hover:bg-white/5 transition-all"
             >
               <Flame className="w-4 h-4 text-emerald-400" />
               Aktif PVP Sunucular
             </Link>
             <Link 
-              href="#compare-section" 
+              href="/#compare-section" 
               className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold text-gray-200 hover:text-cyan-400 hover:bg-white/5 transition-all"
             >
               <Trophy className="w-4 h-4 text-cyan-400" />
@@ -57,7 +57,7 @@ export default function Header() {
           {/* ADD SERVER CTA BUTTON */}
           <div className="hidden md:flex items-center gap-3">
             <Link
-              href="#add-server"
+              href="/add-server"
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold text-xs shadow-lg shadow-amber-500/20 transition-all transform hover:-translate-y-0.5"
             >
               <PlusCircle className="w-4 h-4" />
@@ -81,7 +81,7 @@ export default function Header() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-white/10 bg-[#0d0f17] px-4 pt-4 pb-6 space-y-3">
           <Link
-            href="#opening-this-week"
+            href="/#opening-this-week"
             onClick={() => setIsMobileMenuOpen(false)}
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-amber-400 bg-amber-500/10 font-bold text-sm"
           >
@@ -89,7 +89,7 @@ export default function Header() {
             Bu Cuma Açılacaklar
           </Link>
           <Link
-            href="#active-servers"
+            href="/#opening-this-week"
             onClick={() => setIsMobileMenuOpen(false)}
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-200 hover:bg-white/5 font-medium text-sm"
           >
@@ -97,7 +97,7 @@ export default function Header() {
             Aktif PVP Sunucular
           </Link>
           <Link
-            href="#compare-section"
+            href="/#compare-section"
             onClick={() => setIsMobileMenuOpen(false)}
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-200 hover:bg-white/5 font-medium text-sm"
           >
@@ -106,7 +106,7 @@ export default function Header() {
           </Link>
           <div className="pt-2">
             <Link
-              href="#add-server"
+              href="/add-server"
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-amber-500 text-black font-extrabold text-sm"
             >
