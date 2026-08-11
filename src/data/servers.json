@@ -19,7 +19,13 @@
     "description": "Nostaljik 2008 ruhu! Simyasız, lycansız, otomatik avsız, %100 hilesiz 1-99 Oldschool efsanesi Bu Cuma kapılarını açıyor!",
     "websiteUrl": "https://metin2atlas.tech",
     "discordUrl": "https://discord.gg/metin2atlas",
-    "tags": ["Bu Cuma Açılıyor", "100K Ödüllü", "Simyasız", "Lycansız", "Oldschool"],
+    "tags": [
+      "Bu Cuma Açılıyor",
+      "100K Ödüllü",
+      "Simyasız",
+      "Lycansız",
+      "Oldschool"
+    ],
     "features": {
       "alchemy": false,
       "lycan": false,
@@ -48,7 +54,12 @@
     "description": "Hızlı farm yapısı, özel dereceli zindanlar, derece sistemi ve TL ödüllü lonca savaşları ile rekor online!",
     "websiteUrl": "#",
     "discordUrl": "#",
-    "tags": ["55-120", "Dereceli Zindan", "Hızlı Farm", "Rekor Online"],
+    "tags": [
+      "55-120",
+      "Dereceli Zindan",
+      "Hızlı Farm",
+      "Rekor Online"
+    ],
     "features": {
       "alchemy": true,
       "lycan": true,
@@ -76,7 +87,12 @@
     "description": "Gerçek emek severlerin tercihi. 1-105 aralığında zorlu bir yolculuk seni bekliyor.",
     "websiteUrl": "#",
     "discordUrl": "#",
-    "tags": ["1-105", "Emek", "Simyasız", "Uzun Soluklu"],
+    "tags": [
+      "1-105",
+      "Emek",
+      "Simyasız",
+      "Uzun Soluklu"
+    ],
     "features": {
       "alchemy": false,
       "lycan": false,
@@ -104,7 +120,12 @@
     "description": "Direk 99 seviyeyle başla, anlık PVP ve turnuvalarla rakiplerini geride bırak.",
     "websiteUrl": "#",
     "discordUrl": "#",
-    "tags": ["Vslik", "Anında PVP", "Turnuva", "Rekabetçi"],
+    "tags": [
+      "Vslik",
+      "Anında PVP",
+      "Turnuva",
+      "Rekabetçi"
+    ],
     "features": {
       "alchemy": false,
       "lycan": false,
@@ -133,7 +154,12 @@
     "description": "Nirvana2 Bu Pazar açılıyor! Simyasız, uzun soluklu emek yapısıyla seni bekliyor.",
     "websiteUrl": "#",
     "discordUrl": "#",
-    "tags": ["Bu Pazar Açılıyor", "1-105", "Simyasız", "Emek"],
+    "tags": [
+      "Bu Pazar Açılıyor",
+      "1-105",
+      "Simyasız",
+      "Emek"
+    ],
     "features": {
       "alchemy": false,
       "lycan": false,
